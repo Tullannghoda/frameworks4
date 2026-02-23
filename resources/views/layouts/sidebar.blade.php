@@ -1,6 +1,12 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
 
+        <li class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}">
+            <a class="nav-link" href="dashboard">
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+
         <li class="nav-item {{ request()->is('kategori*') ? 'active' : '' }}">
             <a class="nav-link" href="/kategori">
                 <span class="menu-title">Kategori</span>

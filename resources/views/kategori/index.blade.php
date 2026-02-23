@@ -8,7 +8,10 @@
     <div class="form-group">
         <input type="text" name="nama_kategori" class="form-control" placeholder="Masukkan nama kategori">
     </div>
-    <button type="submit" class="btn btn-primary mt-2">Tambah</button>
+    <button type="button" class="btn btn-gradient-primary mb-3"
+            data-bs-toggle="modal" data-bs-target="#tambahKategoriModal">
+    + Tambah Kategori
+    </button>
 </form>
 
 <table class="table table-bordered">
@@ -24,4 +27,34 @@
     </tr>
     @endforeach
 </table>
+<!-- Modal -->
+<div class="modal fade" id="tambahKategoriModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form method="POST" action="{{ route('kategori.store') }}">
+        @csrf
+
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Kategori</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Nama Kategori</label>
+            <input type="text" name="nama_kategori" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-gradient-primary">Simpan</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
 @endsection

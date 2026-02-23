@@ -3,26 +3,12 @@
 @section('content')
 <h3>Data Buku</h3>
 
-<form action="{{ route('buku.store') }}" method="POST">
-    @csrf
-
-    <div class="form-group">
-        <label>Kategori</label>
-        <select name="kategori_id" class="form-control">
-            @foreach($kategori as $k)
-                <option value="{{ $k->id }}">{{ $k->nama_kategori }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <input type="text" name="kode" class="form-control mt-2" placeholder="Kode">
-    <input type="text" name="judul" class="form-control mt-2" placeholder="Judul">
-    <input type="text" name="pengarang" class="form-control mt-2" placeholder="Pengarang">
-
-    <button class="btn btn-primary mt-3">Tambah Buku</button>
-</form>
-
 <hr>
+
+<button type="button" class="btn btn-gradient-primary mb-3"
+        data-bs-toggle="modal" data-bs-target="#tambahBukuModal">
+    + Tambah Buku
+</button>  
 
 <table class="table table-bordered">
     <tr>
@@ -43,4 +29,55 @@
     </tr>
     @endforeach
 </table>
+<!-- Modal Tambah Buku -->
+<div class="modal fade" id="tambahBukuModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form action="{{ route('buku.store') }}" method="POST">
+        @csrf
+
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Buku</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+
+          <div class="form-group mb-3">
+            <label>Kategori</label>
+            <select name="kategori_id" class="form-control" required>
+              @foreach($kategori as $k)
+                <option value="{{ $k->id }}">{{ $k->nama_kategori }}</option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Kode</label>
+            <input type="text" name="kode" class="form-control" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Judul</label>
+            <input type="text" name="judul" class="form-control" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label>Pengarang</label>
+            <input type="text" name="pengarang" class="form-control" required>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-gradient-primary">Simpan</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
 @endsection
