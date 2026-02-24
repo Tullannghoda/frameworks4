@@ -6,6 +6,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\PDFController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -81,12 +82,18 @@ Route::get('/test-email', function () {
     return 'Email dikirim!';
 });
 
+
+
+
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
     Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
     Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
     Route::post('/buku/store', [BukuController::class, 'store'])->name('buku.store');
+    Route::get('/pdf-sertifikat', [PDFController::class, 'sertifikat'])->name('pdf.sertifikat');
+    Route::get('/pdf-undangan', [PDFController::class, 'undangan'])->name('pdf.undangan');
 
 });
 

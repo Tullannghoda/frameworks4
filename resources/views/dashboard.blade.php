@@ -25,6 +25,36 @@
       </div>
     </div>
   </div>
+  <div class="col-md-4 grid-margin stretch-card">
+      <div class="card">
+          <div class="card-body text-center">
+              <h4 class="card-title">Sertifikat Seminar</h4>
+              <p class="card-description">
+                  Unduh sertifikat partisipasi Anda
+              </p>
+
+              <a href="{{ route('pdf.sertifikat') }}"
+                class="btn btn-gradient-primary btn-rounded btn-fw">
+                Unduh Sertifikat
+              </a>
+          </div>
+      </div>
+  </div>
+    <div class="col-md-4 grid-margin stretch-card">
+      <div class="card">
+          <div class="card-body text-center">
+              <h4 class="card-title">Surat Undangan</h4>
+              <p class="card-description">
+                  Unduh surat undangan anda
+              </p>
+
+              <a href="{{ route('pdf.undangan') }}"
+                class="btn btn-gradient-primary btn-rounded btn-fw">
+                Unduh Surat
+              </a>
+          </div>
+      </div>
+  </div>
 
 </div>
 
