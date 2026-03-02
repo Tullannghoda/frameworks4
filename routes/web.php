@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\BarangController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,10 +40,12 @@ Route::get('/auth/google/callback', function () {
     $user->save();
 
    // Kirim OTP ke email
-    Mail::raw("Kode OTP kamu adalah: $otp", function ($message) use ($user) {
-        $message->to($user->email)
-                ->subject('Kode OTP Login');
-    }); 
+    Mail::send('emails.otp', 
+        ['otp' => $otp, 'name' => $user->name], 
+        function ($message) use ($user) {
+            $message->to($user->email)
+                    ->subject('Kode Verifikasi Login');
+    });
     // Pastikan belum login
     Auth::logout();
 
@@ -82,10 +85,6 @@ Route::get('/test-email', function () {
     return 'Email dikirim!';
 });
 
-
-
-
-
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
@@ -94,7 +93,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/buku/store', [BukuController::class, 'store'])->name('buku.store');
     Route::get('/pdf-sertifikat', [PDFController::class, 'sertifikat'])->name('pdf.sertifikat');
     Route::get('/pdf-undangan', [PDFController::class, 'undangan'])->name('pdf.undangan');
+    Route::post('/barang/cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
+    Route::resource('barang', BarangController::class);
 
 });
+
 
 require __DIR__.'/auth.php';

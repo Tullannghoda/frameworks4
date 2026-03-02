@@ -18,6 +18,12 @@
                 <span class="menu-title">Buku</span>
             </a>
         </li>
+        
+        <li class="nav-item {{ request()->is('barang*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('barang.index') }}">
+                <span class="menu-title">Tag Harga</span>
+            </a>
+        </li>
 
         <li class="nav-item">
             <form method="POST" action="{{ route('logout') }}">
@@ -25,6 +31,5 @@
                 <button class="nav-link btn btn-link">Logout</button>
             </form>
         </li>
-
     </ul>
 </nav>
