@@ -46,7 +46,7 @@ class PDFController extends Controller
             'nama'      => $user->name,
             'email'     => $user->email,
             'hari'      => 'Selasa',
-            'tgl_acara' => '20 Mareti 2026',
+            'tgl_acara' => '20 Maret 2026',
             'waktu'     => '10.00 – 13.00 WIB',
             'tempat'    => 'Plaza Airlangga, Lantai 5',
         ];

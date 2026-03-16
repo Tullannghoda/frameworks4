@@ -12,8 +12,6 @@
 
     <h2 style="letter-spacing:5px;">{{ $otp }}</h2>
 
-    <p>Kode ini berlaku selama 5 menit.</p>
-
     <p>Jangan berikan kode ini kepada siapapun.</p>
 
 </body>

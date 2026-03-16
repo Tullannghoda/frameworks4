@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\WilayahController;
+use App\Http\Controllers\KasirController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -95,7 +97,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pdf-undangan', [PDFController::class, 'undangan'])->name('pdf.undangan');
     Route::post('/barang/cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
     Route::resource('barang', BarangController::class);
-
+    Route::get('/wilayah', [WilayahController::class, 'index'])->name('wilayah.index');
+    Route::get('/wilayah', [WilayahController::class, 'index'])->name('wilayah.index');
+    Route::post('/wilayah/regency', [WilayahController::class, 'fetchRegency'])->name('wilayah.regency');
+    Route::post('/wilayah/district', [WilayahController::class, 'fetchDistrict'])->name('wilayah.district');
+    Route::post('/wilayah/village', [WilayahController::class, 'fetchVillage'])->name('wilayah.village');
+    Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
+    Route::post('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('kasir.cari');
+    Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
+    Route::post('/kasir/simpan-transaksi', [KasirController::class, 'simpanTransaksi'])->name('kasir.simpan');
 });
 
 

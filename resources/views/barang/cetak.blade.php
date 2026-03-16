@@ -2,6 +2,12 @@
 <html>
 <head>
     <style>
+        @page {
+            margin-top: 0mm;
+            margin-bottom: 0mm;
+            margin-left: 0mm;
+            margin-right: 0mm;
+        }
         body {
             font-family: Arial, sans-serif;
         }
@@ -15,7 +21,7 @@
         td {
             border: none;
             width: 20%;
-            height: 90px;
+            height: 80px;
             text-align: center;
             vertical-align: middle;
             font-size: 12px;
@@ -44,8 +50,8 @@
             @elseif($barangIndex < count($barang))
                 <td>
                     <strong>{{ $barang[$barangIndex]->nama_barang }}</strong><br>
-                    <strong>{{ number_format($barang[$barangIndex]->harga, 0, ',', '.') }}</strong><br>
                     {{ $barang[$barangIndex]->id_barang }} <br>
+                    <strong>{{ number_format($barang[$barangIndex]->harga, 0, ',', '.') }}</strong><br>
                 </td>
                 @php $barangIndex++; @endphp
             @else

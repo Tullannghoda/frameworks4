@@ -227,6 +227,20 @@
                     <i class="mdi mdi-book-open menu-icon"></i>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('wilayah.index') }}">
+                    <span class="menu-title">Wilayah</span>
+                    <i class="mdi mdi-map-marker menu-icon"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('kasir.index') }}">
+                    <span class="menu-title">Kasir</span>
+                    <i class="mdi mdi-cart menu-icon"></i>
+                    </a>
+                </li>
                                 <li class="nav-item {{ request()->is('barang*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('barang.index') }}">
                         <span class="menu-title">Tag Harga</span>
