@@ -10,6 +10,10 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\KasirController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\VendorController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -108,5 +112,55 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kasir/simpan-transaksi', [KasirController::class, 'simpanTransaksi'])->name('kasir.simpan');
 });
 
+/*
+| Customer Routes (Tidak perlu login)
+*/
+Route::prefix('kantin')->name('customer.')->group(function () {
+    Route::get('/',              [CustomerController::class, 'index'])->name('index');
+    Route::post('/pesan',        [CustomerController::class, 'store'])->name('store');
+    Route::get('/status/{idpesanan}',   [CustomerController::class, 'status'])->name('status');
+
+    // AJAX: ambil menu berdasarkan vendor
+    Route::get('/menu/{idvendor}', [CustomerController::class, 'getMenuByVendor'])->name('menu.byvendor');
+});
+
+/*
+| Payment Routes
+*/
+Route::prefix('payment')->name('payment.')->group(function () {
+    Route::get('/{idpesanan}',   [PaymentController::class, 'show'])->name('show');
+    Route::post('/callback',     [PaymentController::class, 'callback'])->name('callback')->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class]);
+    Route::get('/finish',        [PaymentController::class, 'finish'])->name('finish');
+});
+
+/*
+| Vendor Routes
+*/
+Route::prefix('vendor')->name('vendor.')->group(function () {
+    // Auth (tidak perlu middleware)
+    Route::get('/login',          [VendorController::class, 'showLogin'])->name('login');
+    Route::post('/login',         [VendorController::class, 'login'])->name('login.post');
+    Route::get('/register',       [VendorController::class, 'showRegister'])->name('register');
+    Route::post('/register',      [VendorController::class, 'register'])->name('register.post');
+    Route::post('/logout',        [VendorController::class, 'logout'])->name('logout');
+
+    // Protected routes
+    Route::middleware('vendor.auth')->group(function () {
+        Route::get('/dashboard',       [VendorController::class, 'dashboard'])->name('dashboard');
+
+        // Menu CRUD
+        Route::get('/menu',            [VendorController::class, 'menuIndex'])->name('menu.index');
+        Route::get('/menu/create',     [VendorController::class, 'menuCreate'])->name('menu.create');
+        Route::post('/menu',           [VendorController::class, 'menuStore'])->name('menu.store');
+        Route::get('/menu/{id}/edit',  [VendorController::class, 'menuEdit'])->name('menu.edit');
+        Route::put('/menu/{id}',       [VendorController::class, 'menuUpdate'])->name('menu.update');
+        Route::delete('/menu/{id}',    [VendorController::class, 'menuDestroy'])->name('menu.destroy');
+    });
+});
+
+// Redirect root ke halaman kantin
+Route::get('/', function () {
+    return redirect()->route('customer.index');
+});
 
 require __DIR__.'/auth.php';
