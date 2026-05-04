@@ -10,10 +10,16 @@
             @if($pesanan->status_bayar == 1)
                 <div class="mb-3">
                     <i class="bi bi-check-circle-fill text-success" style="font-size:5rem;"></i>
-                </div>
+                </div> class="bi bi-qr-code"></i> Download Invoice (QR Code)
+                    </a>
                 <h3 class="fw-bold text-success">Pembayaran Berhasil!</h3>
                 <p class="text-muted">Pesanan kamu sudah <strong>LUNAS</strong> dan sedang diproses.</p>
                 <div class="badge bg-success fs-6 mb-3">LUNAS</div>
+                
+                  <a href="{{ route('pesanan.invoice', $pesanan->id) }}"
+                        target="_blank"
+                        class="btn btn-primary">
+                        <i
             @else
                 <div class="mb-3">
                     <i class="bi bi-clock-history text-warning" style="font-size:5rem;"></i>

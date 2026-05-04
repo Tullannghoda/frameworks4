@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\BarcodeController;
+use App\Http\Controllers\CustomerDataController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -110,6 +112,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('kasir.cari');
     Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
     Route::post('/kasir/simpan-transaksi', [KasirController::class, 'simpanTransaksi'])->name('kasir.simpan');
+
+        // ── Studi Kasus 3 — Customer & Akses Kamera ──────────────
+    Route::prefix('vendor/customers')->name('customerdata.')->group(function () {
+        Route::get('/',      [CustomerDataController::class, 'index'])->name('index');
+        Route::get('/blob',  [CustomerDataController::class, 'createBlob'])->name('create-blob');
+        Route::post('/blob', [CustomerDataController::class, 'storeBlob'])->name('store-blob');
+        Route::get('/file',  [CustomerDataController::class, 'createFile'])->name('create-file');
+        Route::post('/file', [CustomerDataController::class, 'storeFile'])->name('store-file');
+        Route::delete('/{customer}', [CustomerDataController::class, 'destroy'])->name('destroy');
+    });
 });
 
 /*
@@ -161,6 +173,20 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
 // Redirect root ke halaman kantin
 Route::get('/', function () {
     return redirect()->route('customer.index');
+});
+
+Route::middleware('vendor.auth')->group(function () {
+
+    // PDF Tag Harga dengan Barcode (SC 1)
+    // Contoh: GET /vendor/menu/1/pdf-tag-harga
+    Route::get('/vendor/menu/{menu}/pdf-tag-harga', [BarcodeController::class, 'pdfTagHarga'])
+        ->name('menu.pdf-tag-harga');
+
+    // Invoice PDF dengan QR Code (SC 2)
+    // Contoh: GET /vendor/pesanan/5/invoice
+    Route::get('/vendor/pesanan/{pesanan}/invoice', [BarcodeController::class, 'invoiceQr'])
+        ->name('pesanan.invoice');
+
 });
 
 require __DIR__.'/auth.php';

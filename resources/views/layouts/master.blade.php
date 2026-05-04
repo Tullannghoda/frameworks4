@@ -241,12 +241,42 @@
                     <i class="mdi mdi-cart menu-icon"></i>
                     </a>
                 </li>
-                                <li class="nav-item {{ request()->is('barang*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('barang*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('barang.index') }}">
                         <span class="menu-title">Tag Harga</span>
                         <i class="mdi mdi-tag-multiple menu-icon"></i>
                     </a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-bs-toggle="collapse" href="#menuCustomer"
+                    aria-expanded="{{ request()->is('vendor/customers*') ? 'true' : 'false' }}">
+                      <span class="menu-title">Customer</span>
+                      <i class="mdi mdi-account-group menu-icon"></i>
+                      <i class="menu-arrow"></i>
+                  </a>
+                  <div class="collapse {{ request()->is('vendor/customers*') ? 'show' : '' }}" id="menuCustomer">
+                      <ul class="nav flex-column sub-menu">
+                          <li class="nav-item">
+                              <a class="nav-link {{ request()->routeIs('customerdata.index') ? 'active' : '' }}"
+                                href="{{ route('customerdata.index') }}">
+                                  Data Customer
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link {{ request()->routeIs('customerdata.create-blob') ? 'active' : '' }}"
+                                href="{{ route('customerdata.create-blob') }}">
+                                  Tambah Customer 1
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link {{ request()->routeIs('customerdata.create-file') ? 'active' : '' }}"
+                                href="{{ route('customerdata.create-file') }}">
+                                  Tambah Customer 2
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+              </li>
             </ul>
         </nav>
         <!-- partial -->

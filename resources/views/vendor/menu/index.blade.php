@@ -60,6 +60,11 @@
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>
+                        <a href="{{ route('menu.pdf-tag-harga', $menu->id) }}"
+                            target="_blank"
+                            class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-barcode"></i> Tag Harga PDF
+                        </a>
                     </div>
                 </div>
             </div>
