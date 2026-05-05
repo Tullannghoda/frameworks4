@@ -102,6 +102,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pdf-sertifikat', [PDFController::class, 'sertifikat'])->name('pdf.sertifikat');
     Route::get('/pdf-undangan', [PDFController::class, 'undangan'])->name('pdf.undangan');
     Route::post('/barang/cetak', [BarangController::class, 'cetak'])->name('barang.cetak');
+    Route::get('/barang/scanner',      [BarangController::class, 'scanner'])->name('barang.scanner');
+    Route::get('/barang/cari-barcode', [BarangController::class, 'cariBarcode'])->name('barang.cari-barcode');
     Route::resource('barang', BarangController::class);
     Route::get('/wilayah', [WilayahController::class, 'index'])->name('wilayah.index');
     Route::get('/wilayah', [WilayahController::class, 'index'])->name('wilayah.index');
@@ -122,8 +124,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/file', [CustomerDataController::class, 'storeFile'])->name('store-file');
         Route::delete('/{customer}', [CustomerDataController::class, 'destroy'])->name('destroy');
     });
-    Route::get('/barang/scanner',      [BarangController::class, 'scanner'])->name('barang.scanner');
-    Route::get('/barang/cari-barcode', [BarangController::class, 'cariBarcode'])->name('barang.cari-barcode');
+
+    // ── Modul 4 ──────────────────────────────────────────────────
+    Route::get('/modul4/datatable', function () {
+        return view('modul4.datatable');
+    })->name('modul4.datatable');
+
+    Route::get('/modul4/select', function () {
+        return view('modul4.select');
+    })->name('modul4.select');
 });
 
 /*
