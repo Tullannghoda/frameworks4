@@ -162,4 +162,64 @@ class VendorController extends Controller
 
         return redirect()->route('vendor.menu.index')->with('success', 'Menu berhasil dihapus!');
     }
+    // ===================== MODUL 8 P2: QR SCANNER =====================
+ 
+    /**
+     * Halaman scan QR code customer
+     */
+    public function scanQr()
+    {
+        $vendor = session('vendor');
+        return view('vendor.scan-qr', compact('vendor'));
+    }
+ 
+    /**
+     * API: Ambil detail pesanan berdasarkan idpesanan dari QR code.
+     * Hanya tampilkan menu milik vendor yang sedang login.
+     */
+    public function cariPesanan(Request $request)
+    {
+        $idpesanan = $request->query('idpesanan');
+        $vendor    = session('vendor');
+ 
+        $pesanan = Pesanan::with(['detailPesanans.menu'])
+                          ->find($idpesanan);
+ 
+        if (!$pesanan) {
+            return response()->json([
+                'success' => false,
+                'message' => "Pesanan dengan ID '$idpesanan' tidak ditemukan.",
+            ]);
+        }
+ 
+        // Filter detail hanya untuk menu milik vendor ini
+        $detailVendor = $pesanan->detailPesanans->filter(function ($detail) use ($vendor) {
+            return $detail->menu && $detail->menu->idvendor == $vendor->idvendor;
+        })->values();
+ 
+        if ($detailVendor->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => "Tidak ada pesanan untuk vendor Anda pada QR ini.",
+            ]);
+        }
+ 
+        return response()->json([
+            'success'      => true,
+            'idpesanan'    => $pesanan->idpesanan,
+            'nama'         => $pesanan->nama,
+            'status_bayar' => $pesanan->status_bayar,
+            'metode_bayar' => $pesanan->metode_bayar,
+            'total'        => $pesanan->total,
+            'items'        => $detailVendor->map(function ($detail) {
+                return [
+                    'nama_menu' => $detail->menu->nama_menu,
+                    'jumlah'    => $detail->jumlah,
+                    'harga'     => $detail->harga,
+                    'subtotal'  => $detail->subtotal,
+                    'catatan'   => $detail->catatan,
+                ];
+            }),
+        ]);
+    }
 }

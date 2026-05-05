@@ -10,16 +10,36 @@
             @if($pesanan->status_bayar == 1)
                 <div class="mb-3">
                     <i class="bi bi-check-circle-fill text-success" style="font-size:5rem;"></i>
-                </div> class="bi bi-qr-code"></i> Download Invoice (QR Code)
-                    </a>
+                </div>
                 <h3 class="fw-bold text-success">Pembayaran Berhasil!</h3>
                 <p class="text-muted">Pesanan kamu sudah <strong>LUNAS</strong> dan sedang diproses.</p>
                 <div class="badge bg-success fs-6 mb-3">LUNAS</div>
-                
-                  <a href="{{ route('pesanan.invoice', $pesanan->id) }}"
-                        target="_blank"
-                        class="btn btn-primary">
-                        <i
+
+                {{-- ── QR Code Pesanan (Modul 8 P2) ── --}}
+                <div class="card border-success mt-3 mb-3">
+                    <div class="card-header bg-success text-white">
+                        <i class="bi bi-qr-code me-2"></i>
+                        <strong>QR Code Pesanan Kamu</strong>
+                    </div>
+                    <div class="card-body text-center py-4">
+                        <p class="text-muted small mb-3">
+                            Tunjukkan QR Code ini kepada vendor untuk mengambil pesananmu.
+                        </p>
+                        {{-- QR Code di-generate di sisi client menggunakan ID pesanan --}}
+                        <div id="qrcode" class="d-flex justify-content-center"></div>
+                        <p class="mt-3 text-muted small">
+                            ID Pesanan: <code class="fw-bold">{{ $pesanan->idpesanan }}</code>
+                        </p>
+                        <p class="text-info small">
+                            <i class="bi bi-info-circle"></i>
+                            Kamu bisa kembali ke halaman ini kapan saja melalui link:<br>
+                            <a href="{{ route('customer.status', $pesanan->idpesanan) }}" class="fw-bold">
+                                {{ url(route('customer.status', $pesanan->idpesanan)) }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
             @else
                 <div class="mb-3">
                     <i class="bi bi-clock-history text-warning" style="font-size:5rem;"></i>
@@ -86,3 +106,21 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+@if($pesanan->status_bayar == 1)
+{{-- QRCode.js untuk generate QR code di sisi client --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    // Generate QR Code berisi idpesanan
+    new QRCode(document.getElementById("qrcode"), {
+        text: "{{ $pesanan->idpesanan }}",
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+</script>
+@endif
+@endpush

@@ -122,6 +122,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/file', [CustomerDataController::class, 'storeFile'])->name('store-file');
         Route::delete('/{customer}', [CustomerDataController::class, 'destroy'])->name('destroy');
     });
+    Route::get('/barang/scanner',      [BarangController::class, 'scanner'])->name('barang.scanner');
+    Route::get('/barang/cari-barcode', [BarangController::class, 'cariBarcode'])->name('barang.cari-barcode');
 });
 
 /*
@@ -159,6 +161,9 @@ Route::prefix('vendor')->name('vendor.')->group(function () {
     // Protected routes
     Route::middleware('vendor.auth')->group(function () {
         Route::get('/dashboard',       [VendorController::class, 'dashboard'])->name('dashboard');
+        
+        Route::get('/scan-qr', [VendorController::class, 'scanQr'])->name('scan');
+        Route::get('/cari-pesanan', [VendorController::class, 'cariPesanan'])->name('cari-pesanan');
 
         // Menu CRUD
         Route::get('/menu',            [VendorController::class, 'menuIndex'])->name('menu.index');

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('title', 'Edit Menu')
 
@@ -61,7 +61,7 @@
 </div>
 @endsection
 
-@push('scripts')
+@section('scripts')
 <script>
 function previewImage(event) {
     const file = event.target.files[0];
@@ -72,4 +72,4 @@ function previewImage(event) {
     }
 }
 </script>
-@endpush
+@endsection

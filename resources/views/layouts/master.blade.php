@@ -276,6 +276,12 @@
                           </li>
                       </ul>
                   </div>
+                  <li class="nav-item">
+                    <a href="{{ route('barang.scanner') }}" class="nav-link">
+                        <i class="mdi mdi-barcode-scan"></i>
+                        <span>Scan Barcode</span>
+                    </a>
+                </li>
               </li>
             </ul>
         </nav>

@@ -9,10 +9,13 @@
         <p class="text-muted mb-0">Selamat datang, <strong>{{ $vendor->nama_vendor }}</strong>!</p>
     </div>
 
-    //-- tambahan untuk modul 7: tombol menu customer --//
+    {{-- tambahan untuk modul 7: tombol menu customer --}}
     <div class="d-flex gap-2">
         <a href="{{ route('vendor.menu.index') }}" class="btn btn-success">
             <i class="bi bi-grid"></i> Kelola Menu
+        </a>
+            <a href="{{ route('vendor.scan') }}" class="btn btn-dark">
+            <i class="bi bi-qr-code-scan"></i> Scan QR
         </a>
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -38,7 +41,7 @@
             </ul>
         </div>
     </div>
-    //-- donne --//
+    {{-- donne --}}
 
 </div>
 
@@ -87,7 +90,7 @@
                         <th>Total</th>
                         <th>Metode Bayar</th>
                         <th>Detail</th>
-                        <th>Invoice</th>{{-- ✅ TAMBAHAN MODUL 7 --}}
+                        <th>Invoice</th>{{--  TAMBAHAN MODUL 7 --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -110,7 +113,7 @@
                                 <i class="bi bi-eye"></i> Detail
                             </button>
                         </td>
-                        {{-- ✅ TAMBAHAN MODUL 7: tombol invoice QR --}}
+                        {{--  TAMBAHAN MODUL 7: tombol invoice QR --}}
                         <td>
                             <a href="{{ route('vendor.pesanan.invoice', $pesanan->idpesanan) }}"
                                target="_blank"
@@ -118,7 +121,7 @@
                                 <i class="bi bi-qr-code"></i> Invoice
                             </a>
                         </td>
-                        {{-- ✅ AKHIR TAMBAHAN --}}
+                        {{--  AKHIR TAMBAHAN --}}
                     </tr>
                     <tr class="collapse" id="detail{{ $pesanan->idpesanan }}">
                         <td colspan="7" class="bg-light">

@@ -99,4 +99,29 @@ class BarangController extends Controller
         return $pdf->stream('tag-harga.pdf');
         
     }
+    public function cariBarcode(Request $request)
+    {
+        $id = $request->query('id');
+
+        $barang = \App\Models\Barang::where('id_barang', $id)->first();
+
+        if (!$barang) {
+            return response()->json([
+                'success' => false,
+                'message' => "Barang dengan ID '$id' tidak ditemukan.",
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'barang'  => [
+                'id_barang'   => $barang->id_barang,
+                'nama_barang' => $barang->nama_barang,
+                'harga'       => $barang->harga,
+            ],
+        ]);
+    }
+    public function scanner(){
+        return view('barang.scanner');
+    }
 }

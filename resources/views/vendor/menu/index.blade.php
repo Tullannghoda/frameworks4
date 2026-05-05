@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('title', 'Kelola Menu')
 
@@ -60,7 +60,7 @@
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>
-                        <a href="{{ route('menu.pdf-tag-harga', $menu->id) }}"
+                        <a href="{{ route('menu.pdf-tag-harga', $menu->idmenu) }}"
                             target="_blank"
                             class="btn btn-sm btn-outline-secondary">
                             <i class="bi bi-barcode"></i> Tag Harga PDF
