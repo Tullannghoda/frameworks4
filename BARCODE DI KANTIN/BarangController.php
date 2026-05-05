@@ -103,21 +103,24 @@ class BarangController extends Controller
     {
         $id = $request->query('id');
 
-        $barang = \App\Models\Barang::where('id_barang', $id)->first();
+        $menu = \App\Models\Menu::with('vendor')
+                    ->where('idmenu', $id)
+                    ->first();
 
-        if (!$barang) {
+        if (!$menu) {
             return response()->json([
                 'success' => false,
-                'message' => "Barang dengan ID '$id' tidak ditemukan.",
+                'message' => "Menu dengan ID '$id' tidak ditemukan.",
             ]);
         }
 
         return response()->json([
             'success' => true,
             'barang'  => [
-                'id_barang'   => $barang->id_barang,
-                'nama_barang' => $barang->nama_barang,
-                'harga'       => $barang->harga,
+                'id_barang'   => $menu->idmenu,
+                'nama_barang' => $menu->nama_menu,
+                'harga'       => $menu->harga,
+                'vendor'      => $menu->vendor->nama_vendor ?? '-',
             ],
         ]);
     }

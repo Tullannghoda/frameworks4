@@ -20,6 +20,9 @@
                     {{-- Area kamera scanner --}}
                     <div id="reader" style="width:100%; max-width:500px; margin:0 auto;"></div>
 
+                    {{-- Debug raw scan value --}}
+                    <div id="debugRaw" class="mt-2 text-muted small font-monospace"></div>
+
                     {{-- Status --}}
                     <div id="statusScanning" class="mt-3">
                         <span class="badge bg-success px-3 py-2 fs-6">
@@ -53,16 +56,20 @@
                     <div class="card-body">
                         <table class="table table-borderless mb-0">
                             <tr>
-                                <td width="140" class="text-muted fw-bold">ID Barang</td>
+                                <td width="140" class="text-muted fw-bold">ID Menu</td>
                                 <td>: <strong id="res_id" class="text-dark"></strong></td>
                             </tr>
                             <tr>
-                                <td class="text-muted fw-bold">Nama Barang</td>
+                                <td class="text-muted fw-bold">Nama Menu</td>
                                 <td>: <strong id="res_nama" class="text-dark"></strong></td>
                             </tr>
                             <tr>
                                 <td class="text-muted fw-bold">Harga</td>
                                 <td>: <strong id="res_harga" class="text-success fs-5"></strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted fw-bold">Vendor</td>
+                                <td>: <strong id="res_vendor" class="text-dark"></strong></td>
                             </tr>
                         </table>
                     </div>
@@ -117,15 +124,21 @@
     }
 
     // ── Berhasil scan ──
-    function onScanSuccess(decodedText) {
-        if (sudahScan) return;
+    function onScanSuccess(decodedText, decodedResult) {
+        if (sudahScan) return; // cegah scan ganda
         sudahScan = true;
+
+        // Debug: tampilkan raw value yang terbaca
+        console.log('Raw scan:', JSON.stringify(decodedText));
+        console.log('Format:', decodedResult.result.format.formatName);
+        document.getElementById('debugRaw').textContent =
+            'Raw: ' + JSON.stringify(decodedText) + ' | Format: ' + decodedResult.result.format.formatName;
 
         // Bersihkan karakter kontrol / whitespace / padding nol
         let cleanId = decodedText
-            .replace(/[\x00-\x1F\x7F]/g, '')
+            .replace(/[\x00-\x1F\x7F]/g, '') // hapus karakter kontrol
             .trim()
-            .replace(/^0+(\d)/, '$1');
+            .replace(/^0+(\d)/, '$1');        // hapus leading zero (000001 → 1)
 
         // 1. Bunyi beep pakai Web Audio API (tidak perlu file eksternal)
         try {
@@ -168,6 +181,7 @@
                     document.getElementById('res_id').textContent    = data.barang.id_barang;
                     document.getElementById('res_nama').textContent  = data.barang.nama_barang;
                     document.getElementById('res_harga').textContent = 'Rp ' + Number(data.barang.harga).toLocaleString('id-ID');
+                    document.getElementById('res_vendor').textContent = data.barang.vendor;
 
                     document.getElementById('hasilScan').classList.remove('d-none');
                     document.getElementById('hasilError').classList.add('d-none');

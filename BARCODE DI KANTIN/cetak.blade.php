@@ -11,37 +11,44 @@
         body {
             font-family: Arial, sans-serif;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            border: none;
         }
+
         td {
-            border: 1px dashed #bbb;
+            border: 1px dashed #ccc;
             width: 20%;
-            height: 100px;
+            height: 90px;
             text-align: center;
             vertical-align: middle;
-            padding: 5px 3px;
+            font-size: 11px;
+            padding: 4px;
         }
+
+        .barcode-img {
+            width: 100%;
+            max-width: 130px;
+            height: 40px;
+        }
+
         .nama {
             font-weight: bold;
             font-size: 11px;
-            margin-bottom: 3px;
-        }
-        .barcode-img {
-            width: 120px;
-            height: 38px;
-            display: block;
-            margin: 0 auto 2px auto;
-        }
-        .id-text {
-            font-size: 9px;
-            color: #444;
             margin-bottom: 2px;
         }
+
         .harga {
             font-weight: bold;
             font-size: 12px;
+            color: #000;
+        }
+
+        .id-text {
+            font-size: 9px;
+            color: #555;
         }
     </style>
 </head>
@@ -55,23 +62,24 @@
 @endphp
 
 <table>
-@for ($row = 0; $row < 8; $row++)
+
+@for($row = 0; $row < 8; $row++)
     <tr>
-        @for ($col = 0; $col < 5; $col++)
+        @for($col = 0; $col < 5; $col++)
             @php $currentIndex = $row * 5 + $col; @endphp
 
-            @if ($currentIndex < $startIndex)
+            @if($currentIndex < $startIndex)
                 <td></td>
-            @elseif ($barangIndex < count($barang))
+            @elseif($barangIndex < count($barang))
                 @php
-                    $b   = $barang[$barangIndex];
-                    $png = $generator->getBarcode((string) $b->id_barang, $generator::TYPE_CODE_128, 2, 38);
-                    $b64 = base64_encode($png);
+                    $b       = $barang[$barangIndex];
+                    $png     = $generator->getBarcode((string) $b->id_barang, $generator::TYPE_CODE_128, 2, 40);
+                    $base64  = base64_encode($png);
                 @endphp
                 <td>
                     <div class="nama">{{ $b->nama_barang }}</div>
-                    <img class="barcode-img" src="data:image/png;base64,{{ $b64 }}">
-                    <div class="id-text">{{ $b->id_barang }}</div>
+                    <img class="barcode-img" src="data:image/png;base64,{{ $base64 }}">
+                    <div class="id-text">ID: {{ $b->id_barang }}</div>
                     <div class="harga">Rp {{ number_format($b->harga, 0, ',', '.') }}</div>
                 </td>
                 @php $barangIndex++; @endphp
@@ -81,6 +89,7 @@
         @endfor
     </tr>
 @endfor
+
 </table>
 
 </body>
