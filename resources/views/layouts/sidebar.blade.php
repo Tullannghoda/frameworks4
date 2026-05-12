@@ -128,5 +128,13 @@
                 <i class="mdi mdi-barcode-scan menu-icon"></i>
             </a>
         </li>
+
+        {{-- ── Modul 9: Geolcationn ── --}}
+        <li class="nav-item {{ request()->is('toko*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('toko.index') }}">
+                <span class="menu-title">Kunjungan Toko</span>
+                <i class="mdi mdi-store menu-icon"></i>
+            </a>
+        </li>
     </ul>
 </nav>

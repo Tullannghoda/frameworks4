@@ -16,6 +16,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CustomerDataController;
+use App\Http\Controllers\TokoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -115,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
     Route::post('/kasir/simpan-transaksi', [KasirController::class, 'simpanTransaksi'])->name('kasir.simpan');
 
-        // ── Studi Kasus 3 — Customer & Akses Kamera ──────────────
+        // Studi Kasus 3 — Customer & Akses Kamera //
     Route::prefix('vendor/customers')->name('customerdata.')->group(function () {
         Route::get('/',      [CustomerDataController::class, 'index'])->name('index');
         Route::get('/blob',  [CustomerDataController::class, 'createBlob'])->name('create-blob');
@@ -125,7 +126,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{customer}', [CustomerDataController::class, 'destroy'])->name('destroy');
     });
 
-    // ── Modul 4 ──────────────────────────────────────────────────
+    // Modul 4 //
     Route::get('/modul4/datatable', function () {
         return view('modul4.datatable');
     })->name('modul4.datatable');
@@ -133,6 +134,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/modul4/select', function () {
         return view('modul4.select');
     })->name('modul4.select');
+
+    // Modul 9 //
+    Route::prefix('toko')->name('toko.')->group(function () {
+        Route::get('/',                     [TokoController::class, 'index'])->name('index');
+        Route::post('/',                    [TokoController::class, 'store'])->name('store');
+        Route::delete('/{toko}',            [TokoController::class, 'destroy'])->name('destroy');
+        Route::get('/cari-barcode',         [TokoController::class, 'cariBarcode'])->name('cari-barcode');
+        Route::post('/simpan-kunjungan',    [TokoController::class, 'simpanKunjungan'])->name('simpan-kunjungan');
+        Route::get('/{toko}/cetak-barcode', [TokoController::class, 'cetakBarcode'])->name('cetak-barcode');
+    });
 });
 
 /*
