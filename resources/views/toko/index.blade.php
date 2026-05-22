@@ -522,3 +522,4 @@ function getAccuratePosition(targetAccuracy = 50, maxWait = 20000) {
 window.addEventListener('load', mulaiScanner);
 </script>
 @endsection
+

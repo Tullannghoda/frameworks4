@@ -17,6 +17,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\CustomerDataController;
 use App\Http\Controllers\TokoController;
+use App\Http\Controllers\AntrianController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -144,6 +145,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/simpan-kunjungan',    [TokoController::class, 'simpanKunjungan'])->name('simpan-kunjungan');
         Route::get('/{toko}/cetak-barcode', [TokoController::class, 'cetakBarcode'])->name('cetak-barcode');
     });
+
+    Route::prefix('antrian')->name('antrian.')->middleware('auth')->group(function () {
+        Route::get('/admin',             [AntrianController::class, 'admin'])->name('admin');
+        Route::post('/panggil',          [AntrianController::class, 'panggil'])->name('panggil');
+        Route::post('/panggil-terlambat',[AntrianController::class, 'panggilTerlambat'])->name('panggil-terlambat');
+        Route::post('/reset',            [AntrianController::class, 'reset'])->name('reset');
+    });
 });
 
 /*
@@ -212,6 +220,20 @@ Route::middleware('vendor.auth')->group(function () {
     Route::get('/vendor/pesanan/{pesanan}/invoice', [BarcodeController::class, 'invoiceQr'])
         ->name('pesanan.invoice');
 
+});
+
+Route::prefix('antrian')->name('antrian.')->group(function () {
+
+    // Halaman
+    Route::get('/guest',  [AntrianController::class, 'guest'])->name('guest');
+    Route::get('/tiket',  [AntrianController::class, 'tiket'])->name('tiket');
+    Route::get('/papan',  [AntrianController::class, 'papan'])->name('papan');
+
+    // SSE Stream
+    Route::get('/stream', [AntrianController::class, 'stream'])->name('stream');
+
+    // Aksi guest
+    Route::post('/daftar', [AntrianController::class, 'daftar'])->name('daftar');
 });
 
 require __DIR__.'/auth.php';

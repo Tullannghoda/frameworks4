@@ -136,5 +136,33 @@
                 <i class="mdi mdi-store menu-icon"></i>
             </a>
         </li>
+        
+        <li class="nav-item {{ request()->is('antrian*') ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#menuAntrian"
+                aria-expanded="{{ request()->is('antrian*') ? 'true' : 'false' }}">
+                <span class="menu-title">Sistem Antrian</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse {{ request()->is('antrian*') ? 'show' : '' }}" id="menuAntrian">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('antrian.admin') ? 'active' : '' }}"
+                        href="{{ route('antrian.admin') }}">
+                            Admin Antrian
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('antrian.guest') }}" target="_blank">
+                            Halaman Guest ↗
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('antrian.papan') }}" target="_blank">
+                            Papan Antrian ↗
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
     </ul>
 </nav>
